@@ -8,7 +8,7 @@ resource "aws_vpc" "name" {
   }
 }
 
-resource "aws_subnet" "test_public" {
+resource "aws_subnet" "public" {
     count = length(var.public_subnet_cidr)
     vpc_id = aws_vpc.name.id
     cidr_block = var.public_subnet_cidr[count.index]
@@ -19,7 +19,7 @@ resource "aws_subnet" "test_public" {
     availability_zone = data.aws_availability_zones.available.names[count.index]
 }
 
-resource "aws_internet_gateway" "gw_internet_test" {
+resource "aws_internet_gateway" "gw_internet" {
   vpc_id = aws_vpc.name.id
 
   tags = {
@@ -33,7 +33,7 @@ resource "aws_route_table" "rt_internet" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.gw_internet_test.id
+    gateway_id = aws_internet_gateway.gw_internet.id
   }
 
   tags = {
@@ -44,6 +44,6 @@ resource "aws_route_table" "rt_internet" {
 resource "aws_route_table_association" "a" {
   count =length(var.public_subnet_cidr)
   
-  subnet_id      = aws_subnet.test_public[count.index].id
+  subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.rt_internet.id
 }

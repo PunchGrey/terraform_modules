@@ -20,13 +20,13 @@ variable "cidr_block_vpc" {
 
 variable "vpc_name" {
   type = string
-  default = "my-vpc-test"
+  default = "my-vpc-dev"
   description = "vpc name"
 }
 
 variable "env" {
   type = string
-  default = "test"
+  default = "dev"
   description = "environment name"
 }
 
