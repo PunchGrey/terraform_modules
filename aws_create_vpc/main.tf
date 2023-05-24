@@ -8,6 +8,17 @@ resource "aws_vpc" "name" {
   }
 }
 
+resource "aws_subnet" "private" {
+    count = length(var.private_subnet_cidr)
+    vpc_id = aws_vpc.name.id
+    cidr_block = var.private_subnet_cidr[count.index]
+    map_public_ip_on_launch = false
+    tags = {
+        Name = "${var.env}-private-${count.index}"
+    }
+    availability_zone = data.aws_availability_zones.available.names[count.index]
+}
+
 resource "aws_subnet" "public" {
     count = length(var.public_subnet_cidr)
     vpc_id = aws_vpc.name.id

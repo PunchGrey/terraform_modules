@@ -35,3 +35,9 @@ variable "public_subnet_cidr" {
   default = ["10.0.0.0/24","10.0.1.0/24"]
   description = "list ciderblocks for public subnets"
 }
+
+variable "private_subnet_cidr" {
+  type = list
+  default = ["10.0.50.0/24","10.0.51.0/24"]
+  description = "list ciderblocks for private subnets"
+}
